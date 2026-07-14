@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Todo List</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    max-width:700px;
+    margin:40px auto;
+}
+
+input{
+    padding:8px;
+    width:250px;
+    margin:5px;
+}
+
+button{
+    padding:8px 14px;
+    margin:5px;
+    cursor:pointer;
+}
+
+ul{
+    border:1px solid #ccc;
+    border-radius:6px;
+    min-height:80px;
+    padding:15px 30px;
+}
+
+li{
+    margin:6px 0;
+}
+</style>
+
+</head>
+<body>
+
+<h1>Todo List</h1>
+
+<input id="task" placeholder="Enter task">
+
+<button onclick="addTodo()">Add Todo</button>
+<button onclick="addDone()">Add Done</button>
+
+<h2>Todo List</h2>
+<ul id="todoList"></ul>
+
+<h2>Done List</h2>
+<ul id="doneList"></ul>
+
+<input id="moveTask" placeholder="Task name">
+
+<br><br>
+
+<button onclick="moveToDone()">Move Todo → Done</button>
+<button onclick="moveToTodo()">Move Done → Todo</button>
+<button onclick="deleteDone()">Delete Done Item</button>
+<button onclick="clearDone()">Clear Done List</button>
+
+<script>
+
+let todo = [];
+let done = [];
+
+function updateLists(){
+
+    const todoList = document.getElementById("todoList");
+    const doneList = document.getElementById("doneList");
+
+    todoList.innerHTML = "";
+    doneList.innerHTML = "";
+
+    todo.forEach(task=>{
+        let li = document.createElement("li");
+        li.textContent = task;
+        todoList.appendChild(li);
+    });
+
+    done.forEach(task=>{
+        let li = document.createElement("li");
+        li.textContent = task;
+        doneList.appendChild(li);
+    });
+
+}
+
+function addTodo(){
+
+    let task = document.getElementById("task").value.trim();
+
+    if(task !== "" && !todo.includes(task)){
+        todo.push(task);
+    }
+
+    document.getElementById("task").value = "";
+    updateLists();
+
+}
+
+function addDone(){
+
+    let task = document.getElementById("task").value.trim();
+
+    if(task !== "" && !done.includes(task)){
+        done.push(task);
+    }
+
+    document.getElementById("task").value = "";
+    updateLists();
+
+}
+
+function moveToDone(){
+
+    let task = document.getElementById("moveTask").value.trim();
+
+    let index = todo.indexOf(task);
+
+    if(index !== -1){
+        todo.splice(index,1);
+        done.push(task);
+    }
+
+    document.getElementById("moveTask").value = "";
+    updateLists();
+
+}
+
+function moveToTodo(){
+
+    let task = document.getElementById("moveTask").value.trim();
+
+    let index = done.indexOf(task);
+
+    if(index !== -1){
+        done.splice(index,1);
+        todo.push(task);
+    }
+
+    document.getElementById("moveTask").value = "";
+    updateLists();
+
+}
+
+function deleteDone(){
+
+    let task = document.getElementById("moveTask").value.trim();
+
+    let index = done.indexOf(task);
+
+    if(index !== -1){
+        done.splice(index,1);
+    }
+
+    document.getElementById("moveTask").value = "";
+    updateLists();
+
+}
+
+function clearDone(){
+
+    done = [];
+    updateLists();
+
+}
+
+updateLists();
+
+</script>
+
+</body>
+</html>
